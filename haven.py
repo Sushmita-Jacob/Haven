@@ -20,6 +20,10 @@ player = pygame.image.load("trampoline.png").convert_alpha()
 player = pygame.transform.scale(player, (150,150))
 player_rect = player.get_rect(center=(350,500))
 
+cup = pygame.image.load("cup.png").convert_alpha()
+cup = pygame.transform.scale(cup, (60,75))
+cup_rect = cup.get_rect(center=(350, 250))
+
 while carryOn:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -37,6 +41,7 @@ while carryOn:
 
     screen.blit(background, (0, 0))
     screen.blit(player, player_rect)
+    screen.blit(cup, cup_rect)
     
     player_rect.clamp_ip(screen.get_rect())
 
