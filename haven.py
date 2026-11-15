@@ -115,6 +115,7 @@ while carryOn:
 
     screen.blit(background, (0, 0))
     screen.blit(player, player_rect)
+    screen.blit(cup, cup_rect)
     
     player_rect.clamp_ip(screen.get_rect())
 
