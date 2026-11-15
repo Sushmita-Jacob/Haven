@@ -1,4 +1,4 @@
-HACK CLUB HAVEN GAME JAM4\
+HACK CLUB HAVEN GAME JAM
 
 cup pong-inspired game for Haven (theme: bounce back) --> goal: to bounce the hedgehog as many times as possible before bouncing into the cup!
 Daven (the hedgehog) BOUNCES off the trampoline and BOUNCES BACK after hitting the walls!
