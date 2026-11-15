@@ -15,7 +15,11 @@ clock = pygame.time.Clock()
 
 background = pygame.image.load("hero-bg.png").convert()
 background = pygame.transform.scale(background, (width, height))
-player = pygame.Rect(220,160,40,40)
+# player = pygame.Rect(220,160,40,40)
+player = pygame.image.load("trampoline.png").convert_alpha()
+player = pygame.transform.scale(player, (150,150))
+player_rect = player.get_rect(center=(350,500))
+
 while carryOn:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -23,19 +27,20 @@ while carryOn:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        player.x-=4
+        player_rect.x-=4
     if keys[pygame.K_RIGHT]:
-        player.x+=4
-    if keys[pygame.K_UP]:
-        player.y-=4
-    if keys[pygame.K_DOWN]:
-        player.y+=4
+        player_rect.x+=4
+    #if keys[pygame.K_UP]:
+        #player_rect.y-=4
+    #if keys[pygame.K_DOWN]:
+       #player_rect.y+=4
 
     screen.blit(background, (0, 0))
+    screen.blit(player, player_rect)
     
-    player.clamp_ip(screen.get_rect())
+    player_rect.clamp_ip(screen.get_rect())
 
-    pygame.draw.rect(screen, (255,196,0), player)
+    #pygame.draw.rect(screen, (255,196,0), player_rect)
 
 
     pygame.display.flip()
