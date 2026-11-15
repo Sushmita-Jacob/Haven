@@ -138,9 +138,9 @@ while carryOn:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        player_rect.x-=4
+        player_rect.x-=6
     if keys[pygame.K_RIGHT]:
-        player_rect.x+=4
+        player_rect.x+=6
     #below commented out to disable trampoline from moving up and down
     #if keys[pygame.K_UP]:
         #player_rect.y-=4
@@ -169,7 +169,17 @@ while carryOn:
 
         if ball_rect.colliderect(cup_rect):
             won = True
-            
+
+    if not won:
+        ball1.move()
+    
+    #if won==True:
+        #background = pygame.image.load("win.png").convert()
+        #background = pygame.transform.scale(background, (width, height))
+    #if won==False:
+        #background = pygame.image.load("lose.png").convert()
+        #background = pygame.transform.scale(background, (width, height))
+        
     screen.blit(background, (0, 0))
     screen.blit(logo, logo_rect)
     screen.blit(player, player_rect)
@@ -177,11 +187,6 @@ while carryOn:
     screen.blit(score_text, (20, 20))
 
     ball1.draw()
-
-    if not won:
-        ball1.move()
-    # else:
-        # all winning image :)
 
     pygame.display.flip()
     clock.tick(60)
