@@ -20,9 +20,9 @@ background = pygame.image.load("hero-bg.png").convert()
 background = pygame.transform.scale(background, (width, height))
 
 #haven logo
-logo = pygame.image.load().convert_alpha()
-logo = pygame.transform.scale(logo, (50,50))
-logo_rect = logo.get_rect(center=(50,50))
+logo = pygame.image.load("logo.png").convert_alpha()
+logo = pygame.transform.scale(logo, (85,50))
+logo_rect = logo.get_rect(center=(50,450))
 
 #trampoline
 # player = pygame.Rect(220,160,40,40)
@@ -44,7 +44,7 @@ cup_rect = cup.get_rect(center=(width/2, height/2))
 hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
 
 bounces = 0
-core_text = font.render(f"Bounces: {bounces}", True, (255, 255, 255))
+score_text = font.render(f"Bounces: {bounces}", True, (255, 255, 255))
 
 
 class Ball:
@@ -78,6 +78,7 @@ class Ball:
         # Gravity
         self.y_speed += 0.12
         global bounces
+        global score_text
 
         # Move the hedgehog
         self.x_pos += self.x_speed
@@ -88,21 +89,24 @@ class Ball:
             self.x_pos = width - self.radius
             self.x_speed *= -1
             bounces += 1
-            print(bounces)
+            score_text = font.render(f"Bounces: {bounces}", True, (255, 255, 255))
+
 
         # Bounce off left wall
         if self.x_pos - self.radius <= 0:
             self.x_pos = self.radius
             self.x_speed *= -1
             bounces += 1
-            print(bounces)
+            score_text = font.render(f"Bounces: {bounces}", True, (255, 255, 255))
+
 
         # Bounce off top wall
         if self.y_pos - self.radius <= 0:
             self.y_pos = self.radius
             self.y_speed *= -1
             bounces += 1
-            print(bounces)
+            score_text = font.render(f"Bounces: {bounces}", True, (255, 255, 255))
+
 
         # Hedgehog collision rectangle
         ball_rect = pygame.Rect(
@@ -125,7 +129,7 @@ class Ball:
 ball1 = Ball(100, 100, 30, "blue", 100, 0.9, 5, 4, 1)
 
 # if user wins:
-won = false
+won = False
 
 while carryOn:
     for event in pygame.event.get():
@@ -149,7 +153,7 @@ while carryOn:
     if not won:
          ball1.move() 
 
-    if(ball_rect.y<=0):
+    if(player_rect.y<=0):
         lose_img = pygame.image.load("lose.png").convert()
         lose_img = pygame.transform.scale(lose_img, (width, height))
         screen.blit(lose_img, (0, 0))
@@ -170,11 +174,13 @@ while carryOn:
     screen.blit(logo, logo_rect)
     screen.blit(player, player_rect)
     screen.blit(cup, cup_rect)
+    screen.blit(score_text, (20, 20))
+
     ball1.draw()
 
     if not won:
         ball1.move()
-    else:
+    # else:
         # all winning image :)
 
     pygame.display.flip()
