@@ -55,7 +55,7 @@ class Ball:
 
     def move(self):
         # Gravity
-        self.y_speed += 0.25
+        self.y_speed += 0.12
 
         # Move the hedgehog
         self.x_pos += self.x_speed
@@ -88,7 +88,7 @@ class Ball:
         if ball_rect.colliderect(player_rect) and self.y_speed > 0:
             if ball_rect.bottom - self.y_speed <= player_rect.top:
                 self.y_pos = player_rect.top - self.radius
-                self.y_speed = -10
+                self.y_speed = -6
 
 
 # Create hedgehog
