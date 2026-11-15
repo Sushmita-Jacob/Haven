@@ -23,6 +23,11 @@ player = pygame.image.load("trampoline.png").convert_alpha()
 player = pygame.transform.scale(player, (150,150))
 player_rect = player.get_rect(center=(350,500))
 
+#picnic blanket
+blanket = pygame.image.load("picnic_blanket.png").convert_alpha()
+blanket = pygame.transform.scale(blanket, (250,250))
+blanket_rect = blanket.get_rect(center=(350,275))
+
 #cup
 cup = pygame.image.load("cup.png").convert_alpha()
 cup = pygame.transform.scale(cup, (60,75))
@@ -30,6 +35,8 @@ cup_rect = cup.get_rect(center=(width/2, height/2))
 
 #hedgehog
 hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
+
+bounces = 0
 
 class Ball:
     def __init__(self, x_pos, y_pos, radius, color, mass,
@@ -61,6 +68,7 @@ class Ball:
     def move(self):
         # Gravity
         self.y_speed += 0.12
+        global bounces
 
         # Move the hedgehog
         self.x_pos += self.x_speed
@@ -70,16 +78,22 @@ class Ball:
         if self.x_pos + self.radius >= width:
             self.x_pos = width - self.radius
             self.x_speed *= -1
+            bounces += 1
+            print(bounces)
 
         # Bounce off left wall
         if self.x_pos - self.radius <= 0:
             self.x_pos = self.radius
             self.x_speed *= -1
+            bounces += 1
+            print(bounces)
 
         # Bounce off top wall
         if self.y_pos - self.radius <= 0:
             self.y_pos = self.radius
             self.y_speed *= -1
+            bounces += 1
+            print(bounces)
 
         # Hedgehog collision rectangle
         ball_rect = pygame.Rect(
@@ -93,6 +107,9 @@ class Ball:
         if ball_rect.colliderect(player_rect) and self.y_speed > 0:
                 self.y_pos = player_rect.top - self.radius
                 self.y_speed = -6
+
+        # Add bounce streak
+        
 
 
 # Calling class Ball to create hedgehog
@@ -118,15 +135,20 @@ while carryOn:
      # Move the hedgehog
     ball1.move()
 
+    if(player_rect.y<=0):
+        lose_img = pygame.image.load("lose.png").convert()
+        lose_img = pygame.transform.scale(lose_img, (width, height))
+        screen.blit(lose_img, (0, 0))
+
     screen.blit(background, (0, 0))
     screen.blit(player, player_rect)
+    screen.blit(blanket, blanket_rect)
     screen.blit(cup, cup_rect)
     ball1.draw()
     
     player_rect.clamp_ip(screen.get_rect())
 
     #pygame.draw.rect(screen, (255,196,0), player_rect)
-
 
     pygame.display.flip()
     clock.tick(60)
