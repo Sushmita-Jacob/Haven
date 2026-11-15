@@ -48,7 +48,7 @@ cup_hitbox.center = (cup_rect.centerx, cup_rect.top + 15)
 hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
 
 bounces = 0
-score_text = font.render(f"Bounces: {bounces}", True, (120, 61, 43))
+score_text = font.render(f"Bounces: {bounces}", True, (249, 221, 96))
 
 
 class Ball:
@@ -93,7 +93,7 @@ class Ball:
             self.x_pos = width - self.radius
             self.x_speed *= -1
             bounces += 1
-            score_text = font.render(f"Bounces: {bounces}", True, (120, 61, 43))
+            score_text = font.render(f"Bounces: {bounces}", True, (249, 221, 96))
 
 
         # Bounce off left wall
@@ -101,7 +101,7 @@ class Ball:
             self.x_pos = self.radius
             self.x_speed *= -1
             bounces += 1
-            score_text = font.render(f"Bounces: {bounces}", True, (120, 61, 43))
+            score_text = font.render(f"Bounces: {bounces}", True, (249, 221, 96))
 
 
         # Bounce off top wall
@@ -109,7 +109,7 @@ class Ball:
             self.y_pos = self.radius
             self.y_speed *= -1
             bounces += 1
-            score_text = font.render(f"Bounces: {bounces}", True, (120, 61, 43))
+            score_text = font.render(f"Bounces: {bounces}", True, (249, 221, 96))
 
 
         # Hedgehog collision rectangle
