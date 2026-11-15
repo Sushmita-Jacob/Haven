@@ -124,12 +124,21 @@ class Ball:
         # Add bounce streak
         
 
+ # Calling class Ball to create hedgehog
 
-# Calling class Ball to create hedgehog
 ball1 = Ball(100, 100, 30, "blue", 100, 0.9, 5, 4, 1)
 
-# if user wins:
+# Track whether player wins or loses
 won = False
+lost = False
+
+# Load winning and losing images
+win_img = pygame.image.load("win.png").convert()
+win_img = pygame.transform.scale(win_img, (width, height))
+
+lose_img = pygame.image.load("lose.png").convert()
+lose_img = pygame.transform.scale(lose_img, (width, height))
+
 
 while carryOn:
     for event in pygame.event.get():
@@ -137,56 +146,51 @@ while carryOn:
             carryOn = False
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player_rect.x-=6
-    if keys[pygame.K_RIGHT]:
-        player_rect.x+=6
-    #below commented out to disable trampoline from moving up and down
-    #if keys[pygame.K_UP]:
-        #player_rect.y-=4
-    #if keys[pygame.K_DOWN]:
-       #player_rect.y+=4
-    
-    player_rect.clamp_ip(screen.get_rect())
 
-    # when hedgehog is not in the cup, then ball is still in motion
-    if not won:
-         ball1.move() 
+    if not won and not lost:
+        if keys[pygame.K_LEFT]:
+            player_rect.x -= 4
 
-    if(player_rect.y<=0):
-        lose_img = pygame.image.load("lose.png").convert()
-        lose_img = pygame.transform.scale(lose_img, (width, height))
-        screen.blit(lose_img, (0, 0))
-    #pygame.draw.rect(screen, (255,196,0), player_rect)
+        if keys[pygame.K_RIGHT]:
+            player_rect.x += 4
 
-    # collision for ball --> cup :)
+        player_rect.clamp_ip(screen.get_rect())
+
+        # Move hedgehog only once per frame
+        ball1.move()
+
+        # collision rectangle for DAVEN (THE HEDGEHOG)
         ball_rect = pygame.Rect(
-            ball1.x_pos - ball1.radius, 
+            ball1.x_pos - ball1.radius,
             ball1.y_pos - ball1.radius,
             ball1.radius * 2,
             ball1.radius * 2
         )
 
+        # Check if hedgehog collides with cup
         if ball_rect.colliderect(cup_rect):
             won = True
+            print("YOU WIN!")
 
-    if not won:
-        ball1.move()
-    
-    #if won==True:
-        #background = pygame.image.load("win.png").convert()
-        #background = pygame.transform.scale(background, (width, height))
-    #if won==False:
-        #background = pygame.image.load("lose.png").convert()
-        #background = pygame.transform.scale(background, (width, height))
-        
-    screen.blit(background, (0, 0))
-    screen.blit(logo, logo_rect)
-    screen.blit(player, player_rect)
-    screen.blit(cup, cup_rect)
-    screen.blit(score_text, (20, 20))
+        # Check if hedgehog falls off bottom of screen
+        elif ball_rect.top > height:
+            lost = True
+            print("YOU LOSE!")
 
-    ball1.draw()
+    # Draw game based on current state
+    if won:
+        screen.blit(win_img, (0, 0))
+
+    elif lost:
+        screen.blit(lose_img, (0, 0))
+
+    else:
+        screen.blit(background, (0, 0))
+        screen.blit(logo, logo_rect)
+        screen.blit(blanket, blanket_rect)
+        screen.blit(player, player_rect)
+        screen.blit(cup, cup_rect)
+        ball1.draw()
 
     pygame.display.flip()
     clock.tick(60)
