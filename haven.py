@@ -6,6 +6,8 @@ width = 700
 height = 500
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Haven Hedgehog Bounce Back!")
+font = pygame.font.SysFont("Arial", 36)
+
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -16,6 +18,11 @@ clock = pygame.time.Clock()
 #background
 background = pygame.image.load("hero-bg.png").convert()
 background = pygame.transform.scale(background, (width, height))
+
+#haven logo
+logo = pygame.image.load().convert_alpha()
+logo = pygame.transform.scale(logo, (50,50))
+logo_rect = logo.get_rect(center=(50,50))
 
 #trampoline
 # player = pygame.Rect(220,160,40,40)
@@ -37,6 +44,8 @@ cup_rect = cup.get_rect(center=(width/2, height/2))
 hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
 
 bounces = 0
+core_text = font.render(f"Bounces: {bounces}", True, (255, 255, 255))
+
 
 class Ball:
     def __init__(self, x_pos, y_pos, radius, color, mass,
@@ -141,6 +150,7 @@ while carryOn:
         screen.blit(lose_img, (0, 0))
 
     screen.blit(background, (0, 0))
+    screen.blit(logo, logo_rect)
     screen.blit(player, player_rect)
     screen.blit(blanket, blanket_rect)
     screen.blit(cup, cup_rect)
