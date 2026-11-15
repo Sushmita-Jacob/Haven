@@ -1,7 +1,8 @@
 import pygame
 pygame.init()
 
-size = (700, 500)
+width = 700
+height = 500
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Haven")
 
@@ -11,12 +12,15 @@ WHITE = (255,255,255)
 carryOn = True
 clock = pygame.time.Clock()
 
+background = pygame.image.load("hero-bg.png").convert()
+background = pygame.transform.scale(background, (width, height))
 while carryOn:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             carryOn = False
 
-    screen.fill(BLACK)
+    screen.blit(background, (0, 0))
+
     pygame.display.flip()
     clock.tick(60)
 
