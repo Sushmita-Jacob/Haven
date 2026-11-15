@@ -124,6 +124,8 @@ class Ball:
 # Calling class Ball to create hedgehog
 ball1 = Ball(100, 100, 30, "blue", 100, 0.9, 5, 4, 1)
 
+# if user wins:
+won = false
 
 while carryOn:
     for event in pygame.event.get():
@@ -140,25 +142,40 @@ while carryOn:
         #player_rect.y-=4
     #if keys[pygame.K_DOWN]:
        #player_rect.y+=4
-
-     # Move the hedgehog
-    ball1.move()
-
-    if(player_rect.y<=0):
-        lose_img = pygame.image.load("lose.png").convert()
-        lose_img = pygame.transform.scale(lose_img, (width, height))
-        screen.blit(lose_img, (0, 0))
-
-    screen.blit(background, (0, 0))
-    screen.blit(logo, logo_rect)
-    screen.blit(player, player_rect)
-    screen.blit(blanket, blanket_rect)
-    screen.blit(cup, cup_rect)
-    ball1.draw()
     
     player_rect.clamp_ip(screen.get_rect())
 
+    # when hedgehog is not in the cup, then ball is still in motion
+    if not won:
+         ball1.move() 
+
+    if(ball_rect.y<=0):
+        lose_img = pygame.image.load("lose.png").convert()
+        lose_img = pygame.transform.scale(lose_img, (width, height))
+        screen.blit(lose_img, (0, 0))
     #pygame.draw.rect(screen, (255,196,0), player_rect)
+
+    # collision for ball --> cup :)
+        ball_rect = pygame.Rect(
+            ball1.x_pos - ball1.radius, 
+            ball1.y_pos - ball1.radius,
+            ball1.radius * 2,
+            ball1.radius * 2
+        )
+
+        if ball_rect.colliderect(cup_rect):
+            won = True
+            
+    screen.blit(background, (0, 0))
+    screen.blit(logo, logo_rect)
+    screen.blit(player, player_rect)
+    screen.blit(cup, cup_rect)
+    ball1.draw()
+
+    if not won:
+        ball1.move()
+    else:
+        # all winning image :)
 
     pygame.display.flip()
     clock.tick(60)
