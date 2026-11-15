@@ -40,6 +40,10 @@ cup = pygame.image.load("cup.png").convert_alpha()
 cup = pygame.transform.scale(cup, (60,75))
 cup_rect = cup.get_rect(center=(width/2, height/2))
 
+# cup collision box:
+cup_hitbox = pygame.Rect(0, 0, 25, 15)
+cup_hitbox.center = (cup_rect.centerx, cup_rect.top + 15)
+
 #hedgehog
 hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
 
@@ -167,12 +171,11 @@ while carryOn:
             ball1.radius * 2
         )
 
-        # Check if hedgehog collides with cup
-        if ball_rect.colliderect(cup_rect):
+       if (cup_hitbox.collidepoint(ball1.x_pos, ball1.y_pos) and ball1.y_speed > 0 and ball1.x_pos - cup_rect.centerx < 12):
             won = True
             print("YOU WIN!")
 
-        # Check if hedgehog falls off bottom of screen
+        # Lose if hedgehog falls below the screen
         elif ball_rect.top > height:
             lost = True
             print("YOU LOSE!")
