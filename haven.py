@@ -171,7 +171,7 @@ while carryOn:
             ball1.radius * 2
         )
 
-       if (cup_hitbox.collidepoint(ball1.x_pos, ball1.y_pos) and ball1.y_speed > 0 and ball1.x_pos - cup_rect.centerx < 12):
+        if (cup_hitbox.collidepoint(ball1.x_pos, ball1.y_pos) and ball1.y_speed > 0 and ball1.x_pos - cup_rect.centerx < 12):
             won = True
             print("YOU WIN!")
 
@@ -193,6 +193,7 @@ while carryOn:
         screen.blit(blanket, blanket_rect)
         screen.blit(player, player_rect)
         screen.blit(cup, cup_rect)
+        screen.blit(score_text, (20, 20))
         ball1.draw()
 
     pygame.display.flip()
