@@ -20,6 +20,77 @@ player = pygame.image.load("trampoline.png").convert_alpha()
 player = pygame.transform.scale(player, (150,150))
 player_rect = player.get_rect(center=(350,500))
 
+hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
+
+class Ball:
+    def __init__(self, x_pos, y_pos, radius, color, mass,
+                 retention, y_speed, x_speed, id):
+
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.radius = radius
+        self.color = color
+        self.mass = mass
+        self.retention = retention
+        self.y_speed = y_speed
+        self.x_speed = x_speed
+        self.id = id
+
+        # Use hedgehog image instead of a circle
+        self.image = pygame.transform.scale(
+            hedgehog_image, (radius * 2, radius * 2)
+        )
+
+    def draw(self):
+        # Draw the hedgehog image
+        screen.blit(
+            self.image,
+            (self.x_pos - self.radius,
+             self.y_pos - self.radius)
+        )
+
+    def move(self):
+        # Gravity
+        self.y_speed += 0.25
+
+        # Move the hedgehog
+        self.x_pos += self.x_speed
+        self.y_pos += self.y_speed
+
+        # Bounce off right wall
+        if self.x_pos + self.radius >= width:
+            self.x_pos = width - self.radius
+            self.x_speed *= -1
+
+        # Bounce off left wall
+        if self.x_pos - self.radius <= 0:
+            self.x_pos = self.radius
+            self.x_speed *= -1
+
+        # Bounce off top wall
+        if self.y_pos - self.radius <= 0:
+            self.y_pos = self.radius
+            self.y_speed *= -1
+
+        # Hedgehog collision rectangle
+        ball_rect = pygame.Rect(
+            self.x_pos - self.radius,
+            self.y_pos - self.radius,
+            self.radius * 2,
+            self.radius * 2
+        )
+
+        # Bounce when hedgehog lands on trampoline
+        if ball_rect.colliderect(player_rect) and self.y_speed > 0:
+            if ball_rect.bottom - self.y_speed <= player_rect.top:
+                self.y_pos = player_rect.top - self.radius
+                self.y_speed = -10
+
+
+# Create hedgehog
+ball1 = Ball(100, 100, 30, "blue", 100, 0.9, 5, 4, 1)
+
+
 while carryOn:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -35,8 +106,14 @@ while carryOn:
     #if keys[pygame.K_DOWN]:
        #player_rect.y+=4
 
+     # NEW CODE: Move the hedgehog
+    ball1.move()
+
     screen.blit(background, (0, 0))
     screen.blit(player, player_rect)
+
+    # NEW CODE: Draw the hedgehog
+    ball1.draw()
     
     player_rect.clamp_ip(screen.get_rect())
 
