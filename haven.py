@@ -92,7 +92,7 @@ class Ball:
 
 
 # Create hedgehog
-ball1 = Ball(100, 100, 30, "blue", 100, 0.9, 5, 4, 1)
+ball1 = Ball(100, 100, 45, "blue", 100, 0.9, 5, 4, 1)
 
 
 while carryOn:
