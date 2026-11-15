@@ -5,7 +5,7 @@ pygame.init()
 width = 700
 height = 500
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Haven Hedgehog Cup Pong!")
+pygame.display.set_caption("Haven Hedgehog Bounce Back!")
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -13,17 +13,22 @@ WHITE = (255,255,255)
 carryOn = True
 clock = pygame.time.Clock()
 
+#background
 background = pygame.image.load("hero-bg.png").convert()
 background = pygame.transform.scale(background, (width, height))
+
+#trampoline
 # player = pygame.Rect(220,160,40,40)
 player = pygame.image.load("trampoline.png").convert_alpha()
 player = pygame.transform.scale(player, (150,150))
 player_rect = player.get_rect(center=(350,500))
 
+#cup
 cup = pygame.image.load("cup.png").convert_alpha()
 cup = pygame.transform.scale(cup, (60,75))
-cup_rect = cup.get_rect(center=(350, 250))
+cup_rect = cup.get_rect(center=(width/2, height/2))
 
+#hedgehog
 hedgehog_image = pygame.image.load("hedgehog.png").convert_alpha()
 
 class Ball:
@@ -90,7 +95,7 @@ class Ball:
                 self.y_speed = -6
 
 
-# Create hedgehog
+# Calling class Ball to create hedgehog
 ball1 = Ball(100, 100, 30, "blue", 100, 0.9, 5, 4, 1)
 
 
@@ -104,12 +109,13 @@ while carryOn:
         player_rect.x-=4
     if keys[pygame.K_RIGHT]:
         player_rect.x+=4
+    #below commented out to disable trampoline from moving up and down
     #if keys[pygame.K_UP]:
         #player_rect.y-=4
     #if keys[pygame.K_DOWN]:
        #player_rect.y+=4
 
-     # NEW CODE: Move the hedgehog
+     # Move the hedgehog
     ball1.move()
 
     screen.blit(background, (0, 0))
