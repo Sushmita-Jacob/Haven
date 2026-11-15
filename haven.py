@@ -86,7 +86,6 @@ class Ball:
 
         # Bounce when hedgehog lands on trampoline
         if ball_rect.colliderect(player_rect) and self.y_speed > 0:
-            if ball_rect.bottom - self.y_speed <= player_rect.top:
                 self.y_pos = player_rect.top - self.radius
                 self.y_speed = -6
 
