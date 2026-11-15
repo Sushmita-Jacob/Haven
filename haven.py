@@ -3,7 +3,7 @@ pygame.init()
 
 width = 700
 height = 500
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Haven")
 
 BLACK = (0,0,0)
